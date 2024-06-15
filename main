@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_DIRS 100
+#define MAX_LENGTH 100
+
+char directories[MAX_DIRS][MAX_LENGTH];  
+int top = -1;  
+
+void pushd(const char *dir) {
+    if (top == MAX_DIRS - 1) {
+        fprintf(stderr, "Stack full, cannot push more directories.\n");
+        return;
+    }
+    top++;
+    strcpy(directories[top], dir);
+    printf("Pushed %s onto stack.\n", dir);
+}
+
+void popd() {
+    if (top == -1) {
+        fprintf(stderr, "Stack empty, nothing to pop.\n");
+        return;
+    }
+    printf("Popped %s from stack.\n", directories[top]);
+    top--;
+}
+
+
+void displayStack() {
+    printf("Current stack of directories:\n");
+    for (int i = top; i >= 0; i--) {
+        printf("%s\n", directories[i]);
+    }
+}
+
+int main() {
+    pushd("/home/user/documents");
+    pushd("/home/user/downloads");
+    displayStack();
+
+    popd();
+    displayStack();
+
+    popd();
+    displayStack();
+
+    popd();  
+
+    return 0;
+}
